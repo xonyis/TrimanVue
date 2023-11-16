@@ -1,16 +1,43 @@
-<script setup>
+<script>
+export default {
+  data() {
+    return {
+      formData: {
+        nbrPlayers: Number,
+//emit le game ready
+      }
+    };
+    let gameReady = true
+  },
+  methods: {
+    submitForm() {
+        this.$emit('formSubmitted', this.nbrPlayers, this.gameReady);
+        console.log("nbr de joueurs",this.nbrPlayers, this.gameReady);
+    }
+  }
+};
 </script>
 <template>
     <main>
         <div class="overlay-container">
             <h2>Lancer une Partie</h2>
-            <label for="numberInput">Choisissez le nombre de joueurs :</label>
-            <input type="number" id="numberInput" v-model="nombre" min="1" max="6"/>        
-            <button>Lancer la Partie</button>
+            <form @submit.prevent="submitForm">
+                <label for="numberInput">Choisissez le nombre de joueurs :</label>
+                <input type="number" id="numberInput" v-model="nbrPlayers" min="1" max="15"/>        
+                <button type="submit" >Lancer la Partie</button>
+            </form>
         </div>
     </main>
 </template>
 <style scoped>
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 80%;
+}
 .overlay-container {
     background: #fff;
     color: #333;
@@ -45,6 +72,7 @@
 .overlay-container h2{
     text-align: center;
     font-size: 2em;
+    height: 20%;
 }
 
 main {
