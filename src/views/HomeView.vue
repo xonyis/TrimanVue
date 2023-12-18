@@ -5,7 +5,7 @@ import GameSettings from '../components/GameSettings.vue';
 export default {
   data() {
   	return {
-	    gameReady: false,
+	    gameReady: true,
   	}
 	},
     components: {

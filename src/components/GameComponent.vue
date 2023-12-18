@@ -1,4 +1,18 @@
-script
+<script>
+import PopUp from './RulesComponent.vue';
+
+export default {
+  components: {
+    PopUp,
+  },
+  methods: {
+    ouvrirPopUp() {
+      this.$refs.popup.ouvrirPopUp();
+    },
+  },
+};
+</script>
+
 <template>
     <div class="parent">
 <div class="div1"><h2>C'est au tour de :</h2></div>
@@ -8,6 +22,8 @@ script
 <div class="div5"><h2>Dé 1</h2></div>
 <div class="div6"><h2>Dé 2</h2></div>
 </div>
+<PopUp />
+
 </template>
 <style scoped>
 
