@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      afficherPopUp: true,
+      afficherPopUp: false,
     };
   },
   methods: {
@@ -16,14 +16,14 @@ export default {
 };
 </script>
 <template>
-    <div v-if="afficherPopUp" class="popup">
+    <div v-if="afficherPopUp" class="popup" @click.self="fermerPopUp">
     <div class="contenu-popup">
         <h2>Règles :</h2>
       <!-- Contenu de votre pop-up -->
       <div class="parent">
         <div class="div1">resulat</div>
         <div class="div2">règles</div>
-        <div class="div3">gorgés</div>
+        <div class="div3">gorgées</div>
         <div class="div4">3</div>
         <div class="div5">Le triman bois</div>
         <div class="div6">1</div>
@@ -51,6 +51,8 @@ grid-template-columns: 0.5fr 2fr 0.5fr;
 grid-template-rows: repeat(6, 1fr);
 grid-column-gap: 0px;
 grid-row-gap: 0px;
+width: 100%;
+border: 1px solid;
 }
 
 .parent > div {
@@ -116,7 +118,7 @@ button {
     margin: auto;
     padding:.7em 1em;
     border-radius: 8px;
-
+    color: white;
     font-family: var(--font);
 }
 

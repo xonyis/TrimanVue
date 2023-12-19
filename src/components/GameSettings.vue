@@ -2,23 +2,33 @@
 export default {
   data() {
     return {
-      formData: {
-        nbrPlayers: Number,
-//emit le game ready
-      }
+        nbrPlayers:"",
+        isIgnorance:""
     };
-    let gameReady = true
+  },
+  props: {
+    afficherPopup: Boolean,    
   },
   methods: {
     submitForm() {
-        this.$emit('formSubmitted', this.nbrPlayers, this.gameReady);
-        console.log("nbr de joueurs",this.nbrPlayers, this.gameReady);
-    }
+        // verifie le nbr de joueurs pour une partie 
+        if (this.nbrPlayers >= 2) {
+            // this.$emit('gameReady', { nbrPlayers: this.nbrPlayers});
+            
+            this.validerFormulaire();
+            this.$emit('fermerPopup');
+        }
+        console.log("done");
+    },
+    validerFormulaire() {
+      this.$emit('formulaireValide', { nbrPlayers: this.nbrPlayers, ignorance: this.isIgnorance });
+      console.log(this.nbrPlayers);
+    },
   }
 };
 </script>
 <template>
-    <main>
+    <main v-if="!afficherPopup">
         <div class="overlay-container">
             <h2>Lancer une Partie</h2>
             <form @submit.prevent="submitForm">

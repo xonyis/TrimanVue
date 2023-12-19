@@ -5,12 +5,24 @@ import GameSettings from '../components/GameSettings.vue';
 export default {
   data() {
   	return {
-	    gameReady: true,
+        afficherPopup: false,
+        donneesFormulaire: {},
+        nbrPlayers: ""
   	}
 	},
     components: {
         GameComponent,
         GameSettings,
+    },
+    methods: {
+    traiterFormulaire(donneesFormulaire) {
+        // Stockez les données dans la propriété data
+        this.donneesFormulaire = donneesFormulaire;
+      this.nbrPlayers = donneesFormulaire.nbrPlayers;
+      // Traitez les données du formulaire ici
+      console.log('Données du formulaire reçues:',  this.nbrPlayers);
+      
+    },
     },
 }
 
@@ -19,7 +31,7 @@ export default {
 
     <main>
         <GameComponent/>
-        <GameSettings v-show="!gameReady"/>
+        <GameSettings :afficherPopup="afficherPopup" @fermerPopup="afficherPopup = true" @formulaireValide="traiterFormulaire" />
     </main>
 </template>
 <style scoped>

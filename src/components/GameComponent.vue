@@ -2,6 +2,16 @@
 import PopUp from './RulesComponent.vue';
 
 export default {
+    data() {
+    return {
+      d1: null,
+      d2: null,
+    total: null,
+    rules: null,
+    rules1: null,
+    isTriman: false,
+    };
+  },
   components: {
     PopUp,
   },
@@ -9,20 +19,70 @@ export default {
     ouvrirPopUp() {
       this.$refs.popup.ouvrirPopUp();
     },
+    lancerDés() {
+        this.d1 = Math.floor(Math.random() * 6) + 1;
+        this.d2 = Math.floor(Math.random() * 6) + 1;
+        this.total = this.d1+ this.d2;
+
+        if (this.isTriman === true) {
+            console.log('trigger');
+            this.checkRulesTtl(this.total,this.d1, this.d2)
+        }else {
+            this.rules1 = "on cherche un Triman"
+            this.checkIsTriman()
+            
+        }
+    },
+    checkIsTriman(d1, d2, total){
+        if (this.d1 === 3 || this.d2 === 3 || this.total === 3) {
+            this.rules1 = 'on a un Triman, Tu bois pour feter ca'
+            alert('On a un triman')
+            this.isTriman = true
+        }else {
+            console.log("no triman");
+        }
+    },
+    checkRulesTtl(total, d1, d2) {
+        // VERIF DOUBLE
+        if (d1 === d2) {
+            this.rules1 = 'Tu distribue '+d1+' gorgées'
+        }else {
+            this.rules1 = ' '
+        }
+        
+        // VERIF TOTAL 
+        switch (total) {
+            case 3:
+                this.rules = 'Triman bois pour feter ca '
+                break;
+            case 9:
+                this.rules = 'La personne à ta gauche bois une gorgés'
+                break;
+            case 10:
+                this.rules = 'Tu bois une gorgé'
+                break;
+            case 11:
+                this.rules = 'La personne à ta droite bois une gorgés'
+                break;
+            default:
+            this.rules = ''
+                break;
+        };
+    },
   },
 };
 </script>
 
 <template>
     <div class="parent">
-<div class="div1"><h2>C'est au tour de :</h2></div>
-<div class="div2"><h2>Règle :</h2></div>
-<div class="div3"><h2>Total :</h2></div>
-<div class="div4"><h2>Jouer !</h2></div>
-<div class="div5"><h2>Dé 1</h2></div>
-<div class="div6"><h2>Dé 2</h2></div>
+<div class="div1"><h2>C'est au tour du :</h2></div>
+<div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rules1}} <br>{{ rules }}</p></div>
+<div class="div3"><h2>Total :</h2><p class="scrTtl">{{ total }}</p></div>
+<div class="div4" @click="lancerDés"><h2>Jouer !</h2></div>
+<div class="div5"><h2>Dé 1</h2><img v-if="d1" :src="`/de${d1}.svg`" alt="Dé" /></div>
+<div class="div6"><h2>Dé 2</h2><img v-if="d2" :src="`/de${d2}.svg`" alt="Dé" /></div>
 </div>
-<PopUp />
+<PopUp ref="popup" />
 
 </template>
 <style scoped>
@@ -64,9 +124,28 @@ height: 100%;
 .div5 { grid-area: 3 / 1 / 7 / 3;
     background: var(--black);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 .div6 { grid-area: 3 / 7 / 7 / 9;
     background: var(--black);
     text-align: center;
+    color: #e6e6e6;
+
+}
+
+.scrTtl {
+    width: 100%;
+    text-align: center;
+    font-size: 2.5em;
+    line-height: .2em;
+}
+
+img {
+    width: 50%;
+    height: 150px;
+    color: #e6e6e6;
 }
 </style>
