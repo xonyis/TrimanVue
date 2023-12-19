@@ -7,13 +7,14 @@ export default {
   	return {
         afficherPopup: false,
         donneesFormulaire: {},
-        nbrPlayers: ""
-  	}
+        nbrPlayers: null,
+      	}
 	},
     components: {
         GameComponent,
         GameSettings,
     },
+
     methods: {
     traiterFormulaire(donneesFormulaire) {
         // Stockez les données dans la propriété data
@@ -21,7 +22,7 @@ export default {
       this.nbrPlayers = donneesFormulaire.nbrPlayers;
       // Traitez les données du formulaire ici
       console.log('Données du formulaire reçues:',  this.nbrPlayers);
-      
+        
     },
     },
 }
@@ -30,7 +31,7 @@ export default {
 <template>
 
     <main>
-        <GameComponent/>
+        <GameComponent />
         <GameSettings :afficherPopup="afficherPopup" @fermerPopup="afficherPopup = true" @formulaireValide="traiterFormulaire" />
     </main>
 </template>

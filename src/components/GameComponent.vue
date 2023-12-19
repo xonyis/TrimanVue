@@ -9,8 +9,14 @@ export default {
     total: null,
     rules: null,
     rules1: null,
-    isTriman: false,
     };
+  },
+  props: {
+
+    variableDuParent: {
+      type: String, // ou le type approprié de votre variable
+      required: true,
+    },
   },
   components: {
     PopUp,
@@ -19,11 +25,13 @@ export default {
     ouvrirPopUp() {
       this.$refs.popup.ouvrirPopUp();
     },
+    playerCounter(){
+
+    },
     lancerDés() {
         this.d1 = Math.floor(Math.random() * 6) + 1;
         this.d2 = Math.floor(Math.random() * 6) + 1;
         this.total = this.d1+ this.d2;
-
         if (this.isTriman === true) {
             console.log('trigger');
             this.checkRulesTtl(this.total,this.d1, this.d2)
@@ -42,6 +50,7 @@ export default {
             console.log("no triman");
         }
     },
+
     checkRulesTtl(total, d1, d2) {
         // VERIF DOUBLE
         if (d1 === d2) {
@@ -75,7 +84,7 @@ export default {
 
 <template>
     <div class="parent">
-<div class="div1"><h2>C'est au tour du :</h2></div>
+<div class="div1"><div class="tourContainer"><h2>C'est au tour du :</h2><span>1/10</span></div>  <p></p></div>
 <div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rules1}} <br>{{ rules }}</p></div>
 <div class="div3"><h2>Total :</h2><p class="scrTtl">{{ total }}</p></div>
 <div class="div4" @click="lancerDés"><h2>Jouer !</h2></div>
@@ -87,7 +96,7 @@ export default {
 </template>
 <style scoped>
 
-.parent div{
+.parent >div{
     border-radius: 10px;
     padding: 1em 2em;
 }
@@ -106,6 +115,22 @@ height: 100%;
 }
 .div1 { grid-area: 1 / 1 / 3 / 5; 
     background-color: var(--blue);
+    display: flex;
+    flex-direction: column;
+}
+.tourContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0em;
+}
+
+.div1 p {
+    font-size: 2em;
+    text-align: center;
+}
+.div1 span {
+    
 }
 .div2 { grid-area: 1 / 5 / 3 / 9;
     background: var(--yellow);
