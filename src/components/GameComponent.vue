@@ -1,5 +1,9 @@
 <script>
 import PopUp from './RulesComponent.vue';
+import { ref, reactive, watch } from 'vue'
+import gsap from 'gsap'
+
+
 
 export default {
     data() {
@@ -9,6 +13,8 @@ export default {
     total: null,
     rules: null,
     rules1: null,
+    donneesFormulaire: {},
+        nbrPlayers: null,
     };
   },
   props: {
@@ -22,13 +28,19 @@ export default {
     PopUp,
   },
   methods: {
+    traiterFormulaire(donneesFormulaire) {
+        // Stockez les données dans la propriété data
+        this.donneesFormulaire = donneesFormulaire;
+      this.nbrPlayers = donneesFormulaire.nbrPlayers;
+      // Traitez les données du formulaire ici
+      console.log('Données du formulaire reçues:',  this.nbrPlayers);
+        
+    },
     ouvrirPopUp() {
       this.$refs.popup.ouvrirPopUp();
     },
-    playerCounter(){
-
-    },
     lancerDés() {
+        
         this.d1 = Math.floor(Math.random() * 6) + 1;
         this.d2 = Math.floor(Math.random() * 6) + 1;
         this.total = this.d1+ this.d2;
@@ -84,17 +96,27 @@ export default {
 
 <template>
     <div class="parent">
+        
 <div class="div1"><div class="tourContainer"><h2>C'est au tour du :</h2><span>1/10</span></div>  <p></p></div>
 <div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rules1}} <br>{{ rules }}</p></div>
 <div class="div3"><h2>Total :</h2><p class="scrTtl">{{ total }}</p></div>
 <div class="div4" @click="lancerDés"><h2>Jouer !</h2></div>
-<div class="div5"><h2>Dé 1</h2><img v-if="d1" :src="`/de${d1}.svg`" alt="Dé" /></div>
+<div class="div5" ><h2>Dé 1</h2>
+    <img v-if="d1" :src="`/de${d1}.svg`" alt="Dé" />
+</div>
 <div class="div6"><h2>Dé 2</h2><img v-if="d2" :src="`/de${d2}.svg`" alt="Dé" /></div>
 </div>
 <PopUp ref="popup" />
 
 </template>
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 
 .parent >div{
     border-radius: 10px;
@@ -173,4 +195,5 @@ img {
     height: 150px;
     color: #e6e6e6;
 }
+
 </style>
