@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-        nbrPlayers:"",
+        nbrPlayers: Number,
         isIgnorance:""
     };
   },
@@ -24,6 +24,7 @@ export default {
       this.$emit('formulaireValide', { nbrPlayers: this.nbrPlayers, ignorance: this.isIgnorance });
       console.log(this.nbrPlayers);
     },
+
   }
 };
 </script>

@@ -6,6 +6,9 @@ import gsap from 'gsap'
 
 
 export default {
+    props: {
+    nbrPlayers: Number,
+    },
     data() {
     return {
       d1: null,
@@ -13,44 +16,32 @@ export default {
     total: null,
     rules: null,
     rules1: null,
-    donneesFormulaire: {},
-        nbrPlayers: null,
+    nbrPlayer: 1,
     };
-  },
-  props: {
-
-    variableDuParent: {
-      type: String, // ou le type approprié de votre variable
-      required: true,
-    },
   },
   components: {
     PopUp,
   },
   methods: {
-    traiterFormulaire(donneesFormulaire) {
-        // Stockez les données dans la propriété data
-        this.donneesFormulaire = donneesFormulaire;
-      this.nbrPlayers = donneesFormulaire.nbrPlayers;
-      // Traitez les données du formulaire ici
-      console.log('Données du formulaire reçues:',  this.nbrPlayers);
-        
-    },
     ouvrirPopUp() {
       this.$refs.popup.ouvrirPopUp();
     },
     lancerDés() {
-        
         this.d1 = Math.floor(Math.random() * 6) + 1;
         this.d2 = Math.floor(Math.random() * 6) + 1;
         this.total = this.d1+ this.d2;
+        console.log(this.nbrPlayers);
         if (this.isTriman === true) {
             console.log('trigger');
             this.checkRulesTtl(this.total,this.d1, this.d2)
         }else {
             this.rules1 = "on cherche un Triman"
             this.checkIsTriman()
-            
+            if (this.nbrPlayer < this.nbrPlayers) {
+                this.nbrPlayer++
+            }else {
+                this.nbrPlayer = 1
+            }
         }
     },
     checkIsTriman(d1, d2, total){
@@ -70,6 +61,13 @@ export default {
         }else {
             this.rules1 = ' '
         }
+
+        //VERIF TRIMAN DÉ
+        if (d1 || d2 === 3) {
+            this.rules = 'Triman bois pour feter ca '
+        }else {
+            this.rules = ''
+        }
         
         // VERIF TOTAL 
         switch (total) {
@@ -87,6 +85,11 @@ export default {
                 break;
             default:
             this.rules = ''
+            if (this.nbrPlayer < this.nbrPlayers) {
+                this.nbrPlayer++
+            }else {
+                this.nbrPlayer = 1
+            }
                 break;
         };
     },
@@ -97,7 +100,7 @@ export default {
 <template>
     <div class="parent">
         
-<div class="div1"><div class="tourContainer"><h2>C'est au tour du :</h2><span>1/10</span></div>  <p></p></div>
+<div class="div1"><div class="tourContainer"><h2>C'est au tour du :</h2><span>{{ nbrPlayer }}/ {{ nbrPlayers }}</span></div>  <p></p></div>
 <div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rules1}} <br>{{ rules }}</p></div>
 <div class="div3"><h2>Total :</h2><p class="scrTtl">{{ total }}</p></div>
 <div class="div4" @click="lancerDés"><h2>Jouer !</h2></div>
@@ -151,8 +154,9 @@ height: 100%;
     font-size: 2em;
     text-align: center;
 }
+
 .div1 span {
-    
+    font-size: 1.5em;
 }
 .div2 { grid-area: 1 / 5 / 3 / 9;
     background: var(--yellow);
