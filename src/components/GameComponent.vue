@@ -1,5 +1,6 @@
 <script>
 import PopUp from './RulesComponent.vue';
+import PlayersRotation from './PlayerRotationComponent.vue'
 import { ref, reactive, watch } from 'vue'
 import gsap from 'gsap'
 
@@ -14,18 +15,20 @@ export default {
       d1: null,
       d2: null,
     total: null,
+    rulesTriman: null,
     rules: null,
-    rules1: null,
     nbrPlayer: 1,
+    playersDisplay: 1,
     };
   },
   components: {
     PopUp,
+    PlayersRotation,
+
   },
   methods: {
-    ouvrirPopUp() {
-      this.$refs.popup.ouvrirPopUp();
-    },
+    ouvrirPopUp() { this.$refs.popup.ouvrirPopUp(); },
+
     lancerDés() {
         this.d1 = Math.floor(Math.random() * 6) + 1;
         this.d2 = Math.floor(Math.random() * 6) + 1;
@@ -33,21 +36,18 @@ export default {
         console.log(this.nbrPlayers);
         if (this.isTriman === true) {
             console.log('trigger');
-            this.checkRulesTtl(this.total,this.d1, this.d2)
+            // this.checkRulesTtl(this.total,this.d1, this.d2)
         }else {
-            this.rules1 = "on cherche un Triman"
+            this.rulesTriman = "on cherche un Triman"
             this.checkIsTriman()
-            if (this.nbrPlayer < this.nbrPlayers) {
-                this.nbrPlayer++
-            }else {
-                this.nbrPlayer = 1
-            }
         }
     },
+
+    
+
     checkIsTriman(d1, d2, total){
         if (this.d1 === 3 || this.d2 === 3 || this.total === 3) {
-            this.rules1 = 'on a un Triman, Tu bois pour feter ca'
-            alert('On a un triman')
+            this.rulesTriman = 'on a un Triman, Joueur' + this.nbrPlayer-1 + 'tu bois pour feter ca !'
             this.isTriman = true
         }else {
             console.log("no triman");
@@ -57,23 +57,21 @@ export default {
     checkRulesTtl(total, d1, d2) {
         // VERIF DOUBLE
         if (d1 === d2) {
-            this.rules1 = 'Tu distribue '+d1+' gorgées'
+            this.rules = 'Tu distribue '+d1+' gorgées'
         }else {
-            this.rules1 = ' '
+            this.rules = ' '
         }
 
         //VERIF TRIMAN DÉ
-        if (d1 || d2 === 3) {
-            this.rules = 'Triman bois pour feter ca '
+        if (d1 === 3 || d2 === 3 || total === 3) {
+            this.rulesTriman = 'Triman bois pour feter ca '
+            
         }else {
-            this.rules = ''
+            this.rulesTriman = ' '
         }
         
         // VERIF TOTAL 
         switch (total) {
-            case 3:
-                this.rules = 'Triman bois pour feter ca '
-                break;
             case 9:
                 this.rules = 'La personne à ta gauche bois une gorgés'
                 break;
@@ -85,11 +83,6 @@ export default {
                 break;
             default:
             this.rules = ''
-            if (this.nbrPlayer < this.nbrPlayers) {
-                this.nbrPlayer++
-            }else {
-                this.nbrPlayer = 1
-            }
                 break;
         };
     },
@@ -100,8 +93,8 @@ export default {
 <template>
     <div class="parent">
         
-<div class="div1"><div class="tourContainer"><h2>C'est au tour du :</h2><span>{{ nbrPlayer }}/ {{ nbrPlayers }}</span></div>  <p></p></div>
-<div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rules1}} <br>{{ rules }}</p></div>
+<div class="div1"><PlayersRotation :nbrPlayers="nbrPlayers"></PlayersRotation></div>
+<div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rulesTriman }}<br>{{rules}}</p></div>
 <div class="div3"><h2>Total :</h2><p class="scrTtl">{{ total }}</p></div>
 <div class="div4" @click="lancerDés"><h2>Jouer !</h2></div>
 <div class="div5" ><h2>Dé 1</h2>
