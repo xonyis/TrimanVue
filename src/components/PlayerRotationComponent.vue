@@ -10,16 +10,14 @@
 export default {
   data() {
     return {
-      joueurs: [
-        {id:1, nom: 'Joueur'}
-        // ... autres joueurs
-      ],
+      nombreJoueurs: 0,
+
+      joueurs: [],
     };
   },
   props: {
-    nbrPlayers: Number,
+    nbrPlayers: {type: Number},
   },
-
   methods: {
     changerJoueur(nouveauJoueur) {
       // Logique pour changer le joueur actif
@@ -27,11 +25,23 @@ export default {
       // Mettez en œuvre la logique de changement de joueur ici
     },
 
-    ajouterJoueur() {
-      const nouvelJoueur = { id: this.joueurs.length + 1, nom: 'Joueur' };
-      this.joueurs.push(nouvelJoueur);
+    ajouterJoueur(nombreJoueurs) {
       console.log(this.nbrPlayers);
+      this.joueurs = []
+      for (let i = 0; i < nombreJoueurs; i++) {
+        this.joueurs.push({
+          id: i+1,
+          nom: 'Joueur',  // Propriétés de chaque joueur, à personnaliser selon vos besoins
+          // ... d'autres propriétés
+        });
+      }
+      console.log(this.joueurs);
     },
+  },
+  watch: {
+    nbrPlayers: function(nouvellesInfos) {
+      this.ajouterJoueur(this.nbrPlayers)
+    }
   },
 };
 </script>
