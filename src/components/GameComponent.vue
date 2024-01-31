@@ -17,7 +17,6 @@ export default {
     total: null,
     rulesTriman: null,
     rules: null,
-    nbrPlayer: 1,
     playersDisplay: 1,
     };
   },
