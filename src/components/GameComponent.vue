@@ -114,8 +114,7 @@ export default {
 }
 
 .parent >div{
-    border-radius: 10px;
-    padding: 1em 2em;
+    
 }
 
 .parent {
@@ -130,9 +129,11 @@ grid-row-gap: 1em;
 width: 100%;
 height: 100%;
 }
-.div1 { grid-area: 1 / 1 / 3 / 5; 
-    background-color: var(--blue);
+.div1 { 
+    grid-area: 1 / 1 / 3 / 5; 
     display: flex;
+    padding: 0;
+    margin: 0;
     flex-direction: column;
 }
 .tourContainer {
@@ -153,9 +154,13 @@ height: 100%;
 .div2 { grid-area: 1 / 5 / 3 / 9;
     background: var(--yellow);
     color: var(--black);
+    border-radius: 10px;
+    padding: 1em 2em;
 }
 .div3 { grid-area: 3 / 3 / 5 / 7; 
     background: var(--red);
+    border-radius: 10px;
+    padding: 1em 2em;
 }
 .div4 { grid-area: 5 / 3 / 7 / 7; 
     background: var(--green);
@@ -163,6 +168,8 @@ height: 100%;
     font-size: 1.5em;
     display: flex;
     align-items: center;
+    border-radius: 10px;
+    padding: 1em 2em;
 }
 .div5 { grid-area: 3 / 1 / 7 / 3;
     background: var(--black);
@@ -170,12 +177,16 @@ height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 10px;
+    padding: 1em 2em;
 }
 
 .div6 { grid-area: 3 / 7 / 7 / 9;
     background: var(--black);
     text-align: center;
     color: #e6e6e6;
+    border-radius: 10px;
+    padding: 1em 2em;
 
 }
 
