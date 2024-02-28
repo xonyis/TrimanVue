@@ -110,7 +110,11 @@ export default {
     <div class="parent">
         
 <div class="div1"><PlayersRotation :nbrPlayers="nbrPlayers" ref="childComponentRef" @tableau-joueurs="receiveArrayFromChild" @joueur-actif="receiveActualPlayer"></PlayersRotation></div>
-<div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rulesTriman }}<br>{{rules}}</p></div>
+<div class="div2" @click="ouvrirPopUp">
+    
+    <div><h2>Règle :</h2> <h5 style="color: var(--red);">Triman : Joueur {{ trimanPlayer}}</h5></div>
+    <p class="rules">{{ rulesTriman }}<br>{{rules}}</p>
+</div>
 <div class="div3"><h2>Total :</h2><p class="scrTtl">{{ total }}</p></div>
 <div class="div4" @click="lancerDés"><h2>Jouer !</h2></div>
 <div class="div5" ><h2>Dé 1</h2>
@@ -173,6 +177,17 @@ height: 100%;
     color: var(--black);
     border-radius: 10px;
     padding: 1em 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.div2 h2 {
+    width: max-content;
+}
+
+.div2 div {
+    display: flex;
+    justify-content: space-between;
 }
 .div3 { grid-area: 3 / 3 / 5 / 7; 
     background: var(--red);

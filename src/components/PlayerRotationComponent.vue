@@ -1,6 +1,6 @@
 <template>
   <main v-if="joueurActif" :style="{ backgroundColor: joueurActif.color }">
-   {{ joueurActif.id }}
+  <span>C'est au tour de Joueur : {{ joueurActif.id }}</span> 
    <!-- <button @click="changerJoueur">Changer de joueur</button> -->
 
   </main>
@@ -70,6 +70,6 @@ main{
   height: 100%;
   border-radius: 10px;
   padding: 1em 2em;
-  color: black;
+  color: var(--black);
 }
 </style>
