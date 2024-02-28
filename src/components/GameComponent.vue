@@ -18,6 +18,8 @@ export default {
     rulesTriman: null,
     rules: null,
     playersDisplay: 1,
+    trimanPlayer: null,
+    joueurActuel: null,
     };
   },
   components: {
@@ -39,20 +41,35 @@ export default {
         }else {
             this.rulesTriman = "on cherche un Triman"
             this.checkIsTriman()
+            
         }
     },
 
-    
+    triggerChildMethod() {
+      // Accéder à la méthode du composant enfant via le ref
+      this.$refs.childComponentRef.changerJoueur();
+    },
 
     checkIsTriman(d1, d2, total){
         if (this.d1 === 3 || this.d2 === 3 || this.total === 3) {
-            this.rulesTriman = 'on a un Triman, Joueur' + this.nbrPlayer-1 + 'tu bois pour feter ca !'
+            this.rulesTriman = 'on a un Triman, Joueur ' + this.joueurActuel + ' tu bois pour feter ca !'
             this.isTriman = true
+            this.trimanPlayer = this.joueurActuel
+            console.log("triman player "+ this.trimanPlayer);
         }else {
             console.log("no triman");
+            this.triggerChildMethod()
         }
     },
-
+    receiveArrayFromChild(array) {
+      console.log("Tableau reçu du composant enfant :", array);
+      // Faites ce que vous voulez avec le tableau reçu du composant enfant
+    },
+    receiveActualPlayer(joueurActif) {
+        this.joueurActuel = joueurActif
+      console.log("joueurActif :", joueurActif);
+      // Faites ce que vous voulez avec le tableau reçu du composant enfant
+    },
     checkRulesTtl(total, d1, d2) {
         // VERIF DOUBLE
         if (d1 === d2) {
@@ -92,7 +109,7 @@ export default {
 <template>
     <div class="parent">
         
-<div class="div1"><PlayersRotation :nbrPlayers="nbrPlayers"></PlayersRotation></div>
+<div class="div1"><PlayersRotation :nbrPlayers="nbrPlayers" ref="childComponentRef" @tableau-joueurs="receiveArrayFromChild" @joueur-actif="receiveActualPlayer"></PlayersRotation></div>
 <div class="div2" @click="ouvrirPopUp"><h2>Règle :</h2><p class="rules">{{ rulesTriman }}<br>{{rules}}</p></div>
 <div class="div3"><h2>Total :</h2><p class="scrTtl">{{ total }}</p></div>
 <div class="div4" @click="lancerDés"><h2>Jouer !</h2></div>

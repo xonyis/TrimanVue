@@ -1,9 +1,8 @@
 <template>
-  <main :style="{ backgroundColor: couleurActuelle }">
-    <ul>
-      <li v-for="joueur in joueurs" :key="joueur.id">{{ joueur.nom }} {{ joueur.id }}</li>
-    </ul>
-    <button @click="changerCouleur">test</button>
+  <main v-if="joueurActif" :style="{ backgroundColor: joueurActif.color }">
+   {{ joueurActif.id }}
+   <!-- <button @click="changerJoueur">Changer de joueur</button> -->
+
   </main>
 </template>
 <script>
@@ -11,16 +10,24 @@ export default {
   data() {
     return {
       nombreJoueurs: 0,
+      playerTurn: 0,
       couleurs: ["#FFADAD", "#FFD6A5", "#FDFFB6", "#CAFFBF", "#9BF6FF", "#A0C4FF", "#BDB2FF", "#FFC6FF"],
       couleurActuelle: "#FFADAD", // Couleur par défaut
 
       joueurs: [],
-      
+      joueurActifIndex: 0 // Index du joueur actif dans le tableau joueurs
+
     };
   },
   props: {
     nbrPlayers: {type: Number},
   },
+  computed: {
+    joueurActif() {
+      return this.joueurs[this.joueurActifIndex];
+    }
+  },
+
   methods: {
     ajouterJoueur(nombreJoueurs) {
       console.log(this.nbrPlayers);
@@ -34,17 +41,23 @@ export default {
       }
       console.log(this.joueurs);
     },
-
-    changerCouleur() {
-      // Choisir une couleur aléatoire dans le tableau
-      const nouvelleCouleur = this.couleurs[Math.floor(Math.random() * this.couleurs.length)];
-      // Mettre à jour la couleur actuelle
-      this.couleurActuelle = nouvelleCouleur;
+    changerJoueur() {
+      // Changer de joueur en incrémentant l'index du joueur actif
+      this.joueurActifIndex = (this.joueurActifIndex + 1) % this.joueurs.length;
+      this.sendActualPlayerToParent()
+    },
+    sendArrayToParent() {
+      this.$emit('tableau-joueurs', this.joueurs);
+    },
+    sendActualPlayerToParent(){
+      this.$emit('joueur-actif', this.joueurActif.id);
     }
   },
   watch: {
     nbrPlayers: function(nouvellesInfos) {
       this.ajouterJoueur(this.nbrPlayers)
+      this.sendArrayToParent()
+      this.sendActualPlayerToParent()
     }
   },
 };
@@ -57,5 +70,6 @@ main{
   height: 100%;
   border-radius: 10px;
   padding: 1em 2em;
+  color: black;
 }
 </style>
